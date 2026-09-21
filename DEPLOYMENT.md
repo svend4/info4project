@@ -1,6 +1,9 @@
 # Deployment Guide
 
-This document provides comprehensive instructions for deploying and managing the Info4Project task management system.
+## Prerequisites
+- Docker and Docker Compose installed
+- Node.js 18+
+- Git
 
 ## Table of Contents
 
