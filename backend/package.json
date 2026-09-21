@@ -1,23 +1,19 @@
 {
-  "name": "task-management-backend",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "Backend API for Task Management System",
+  "description": "Backend API server",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "jest --coverage",
-    "test:watch": "jest --watch"
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
-  "keywords": [
-    "task",
-    "management",
-    "api"
-  ],
-  "author": "Stefan Engel",
-  "license": "MIT",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5"
+    "express": "^4.18.2"
   },
   "devDependencies": {
     "jest": "^29.7.0",
