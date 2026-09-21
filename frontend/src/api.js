@@ -174,7 +174,11 @@ export const tasksAPI = {
       }
 
       const data = await response.json();
-      validateResponse(data, 'DELETE /api/tasks/:id');
+
+      // Validate that response has success flag
+      if (data.success === undefined) {
+        throw new Error('Invalid response: missing success flag for DELETE /api/tasks/:id');
+      }
 
       return {
         success: true,

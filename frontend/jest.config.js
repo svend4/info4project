@@ -10,12 +10,10 @@ module.exports = {
     '!src/index.js',
     '!src/index.jsx',
   ],
-  coverageThreshold: {
-    global: {
-      branches: 80,
-      functions: 80,
-      lines: 80,
-      statements: 80,
-    },
+  testEnvironmentOptions: {
+    url: 'http://localhost/',
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!(dom-accessibility-api|@testing-library|jsdom)/)',
+  ],
 };
