@@ -7,16 +7,16 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000/api';
 
 // Validate response structure matches contract
-const validateResponse = (response, endpoint) => {
-  if (!response.data) {
-    throw new Error(`Invalid response: missing data object for ${endpoint}`);
-  }
-
-  if (response.data.success === undefined) {
+const validateResponse = (parsedData, endpoint) => {
+  if (parsedData.success === undefined) {
     throw new Error(`Invalid response: missing success flag for ${endpoint}`);
   }
 
-  return response.data;
+  if (parsedData.data === undefined) {
+    throw new Error(`Invalid response: missing data object for ${endpoint}`);
+  }
+
+  return parsedData;
 };
 
 export const tasksAPI = {
@@ -36,7 +36,7 @@ export const tasksAPI = {
       }
 
       const data = await response.json();
-      validateResponse({ data }, 'GET /api/tasks');
+      validateResponse(data, 'GET /api/tasks');
 
       return {
         success: true,
@@ -76,7 +76,7 @@ export const tasksAPI = {
       }
 
       const data = await response.json();
-      validateResponse({ data }, 'POST /api/tasks');
+      validateResponse(data, 'POST /api/tasks');
 
       return {
         success: true,
@@ -108,7 +108,7 @@ export const tasksAPI = {
       }
 
       const data = await response.json();
-      validateResponse({ data }, 'GET /api/tasks/:id');
+      validateResponse(data, 'GET /api/tasks/:id');
 
       return {
         success: true,
@@ -142,7 +142,7 @@ export const tasksAPI = {
       }
 
       const data = await response.json();
-      validateResponse({ data }, 'PUT /api/tasks/:id');
+      validateResponse(data, 'PUT /api/tasks/:id');
 
       return {
         success: true,
@@ -174,7 +174,7 @@ export const tasksAPI = {
       }
 
       const data = await response.json();
-      validateResponse({ data }, 'DELETE /api/tasks/:id');
+      validateResponse(data, 'DELETE /api/tasks/:id');
 
       return {
         success: true,
