@@ -1,0 +1,49 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, feature/devops]
+  pull_request:
+    branches: [main, feature/devops]
+
+jobs:
+  test-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: cd backend && npm ci && npm test
+
+  test-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - run: cd frontend && npm ci && npm test -- --coverage
+
+  build-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker build -f docker/Dockerfile.backend -t task-backend:latest .
+      - run: docker build -f docker/Dockerfile.frontend -t task-frontend:latest .
+
+  integration-tests:
+    needs: [build-docker]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker-compose up -d
+      - run: sleep 10
+      - run: curl -f http://localhost/health || exit 1
+      - run: docker-compose down
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: npm audit --workspaces --audit-level=moderate
